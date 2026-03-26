@@ -25,15 +25,15 @@ module Gem::Text
     result = []
     work = clean_text(text)
 
-    while work.length > wrap do
+    while work.length > wrap
       if work =~ /^(.{0,#{wrap}})[ \n]/
         result << $1.rstrip
-        work.slice!(0, $&.length)
+        work = work.slice($&.length..-1)
       else
-        result << work.slice!(0, wrap)
+        result << work.slice(0, wrap)
+        work = work.slice(wrap..-1)
       end
     end
-
     result << work if work.length.nonzero?
     result.join("\n").gsub(/^/, " " * indent)
   end
